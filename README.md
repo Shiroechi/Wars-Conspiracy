@@ -27,3 +27,6 @@ Before build this project you need to add reference:
 
 ## Contribution
 Anyone can contribute, especially someone who knows about networking. So it can help to add online version.
+
+## Donation
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X81SP2L)
