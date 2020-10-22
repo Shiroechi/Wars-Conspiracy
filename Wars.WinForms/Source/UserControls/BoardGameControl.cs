@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Wars.Core.Board;
@@ -6,7 +7,7 @@ using Wars.Core.Command;
 using Wars.Core.Player;
 using Wars.WinForms.Forms;
 
-using CommandType = Wars.Core.Command.CommandType;
+using CommandType = Wars.Core.Common.CommandType;
 
 namespace Wars.WinForms.UserControls
 {
@@ -14,11 +15,13 @@ namespace Wars.WinForms.UserControls
 	{
 		#region Member
 
-		private MainForm _Parent;
-		private BoardGame _BoardGame;
-		private Nation _Player;
+		private readonly MainForm _Parent;
+		private readonly BoardGame _BoardGame;
+		private readonly Nation _Player;
 
 		#endregion Member
+
+		#region Constructor & Destructor
 
 		public BoardGameControl(MainForm parent, byte player = 4)
 		{
@@ -47,6 +50,10 @@ namespace Wars.WinForms.UserControls
 			this.ExecuteButton.Dispose();
 		}
 
+		#endregion Constructor & Destructor
+
+		#region Button Event
+
 		private void AttackButton_Click(object sender, EventArgs e)
 		{
 			Commands cmd = new Commands();
@@ -66,7 +73,7 @@ namespace Wars.WinForms.UserControls
 		{
 			Commands cmd = new Commands();
 			cmd.SetFrom(this._Player);
-			cmd.SetCommandType(CommandType.Defend); 
+			cmd.SetCommandType(CommandType.Defend);
 			this._BoardGame.AddCommands(cmd);
 
 			this.AttackButton.Enabled = false;
@@ -75,7 +82,7 @@ namespace Wars.WinForms.UserControls
 			this.ExecuteButton.Enabled = true;
 		}
 
-		private void ExecuteButton_Click(object sender, EventArgs e)
+		private void ExecuteButton_Click (object sender, EventArgs e)
 		{
 			this._BoardGame.CreateCommandAI();
 			this._BoardGame.Execute();
@@ -88,7 +95,7 @@ namespace Wars.WinForms.UserControls
 				MessageBox.Show(this, "Winner " + this._BoardGame.GetAliveNation()[0].GetName(), "Attention");
 				this._Parent.ChangeScreen(new MainMenuControl(this._Parent));
 			}
-			else if(this._BoardGame.GetAliveNation().Count <= 0)
+			else if (this._BoardGame.GetAliveNation().Count <= 0)
 			{
 				MessageBox.Show(this, "DRAW", "Attention");
 				this._Parent.ChangeScreen(new MainMenuControl(this._Parent));
@@ -101,6 +108,17 @@ namespace Wars.WinForms.UserControls
 					this.DefendButton.Enabled = false;
 					this.EnemyChoice.Enabled = false;
 					this.ExecuteButton.Enabled = true;
+
+					var result = MessageBox.Show(
+						this, 
+						"Want to use fast forward?", 
+						"Attention!", 
+						MessageBoxButtons.YesNo);
+
+					if (result == DialogResult.Yes)
+					{
+						this.FastForward();
+					}
 				}
 				else
 				{
@@ -112,48 +130,68 @@ namespace Wars.WinForms.UserControls
 			}
 		}
 
+		#endregion Button Event
+
+		#region Private Method
+
+		private async Task RunAsync()
+		{
+			await this.UpdateHp();
+			await this.UpdateEnemyChoice();
+		}
+
 		/// <summary>
 		/// update all registered player life point
 		/// </summary>
-		private void UpdateHp()
+		private Task UpdateHp()
 		{
 			this.InfoBox.Text = "";
 
-			foreach (Nation player in this._BoardGame.GetNation()) 
+			foreach (Nation player in this._BoardGame.GetNation())
 			{
 				this.InfoBox.Text += player.GetName() + " = " + player.GetLifePoint().ToString();
 				this.InfoBox.Text += Environment.NewLine;
 			}
+
+			return Task.CompletedTask;
 		}
 
 		/// <summary>
 		/// update enemy choice
 		/// </summary>
-		private void UpdateEnemyChoice()
+		private Task UpdateEnemyChoice()
 		{
-			if (this._BoardGame.GetEnemyChoice(this._Player).Count <= 0) 
+			if (this._BoardGame.GetEnemyChoice(this._Player).Count <= 0)
 			{
 				this.EnemyChoice.Items.Clear();
-				return;
+				return Task.CompletedTask;
 			}
 
 			this.EnemyChoice.Items.Clear();
+
 			foreach (Nation nation in this._BoardGame.GetEnemyChoice(this._Player))
 			{
 				this.EnemyChoice.Items.Add(nation);
 			}
+			
 			this.EnemyChoice.SelectedIndex = 0;
+
+			return Task.CompletedTask;
 		}
 
 		/// <summary>
 		/// fast forward the game, if the player is dead.
 		/// </summary>
-		private void FastForward()
+		private Task FastForward()
 		{
-			while (this._BoardGame.GetAliveNation().Count > 1) 
+			while (this._BoardGame.GetAliveNation().Count > 1)
 			{
 				this.ExecuteButton.PerformClick();
 			}
+
+			return Task.CompletedTask;
 		}
+
+		#endregion Private Method
 	}
 }

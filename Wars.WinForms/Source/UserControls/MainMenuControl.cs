@@ -9,13 +9,21 @@ namespace Wars.WinForms.UserControls
 	{
 		#region Member
 
-		private MainForm _Parent;
+		private readonly MainForm _Parent;
 
 		#endregion Member
+
+		#region Constructor & Destructor
 
 		public MainMenuControl()
 		{
 			InitializeComponent();
+		}
+
+		public MainMenuControl(MainForm parent)
+		{
+			InitializeComponent();
+			this._Parent = parent;
 		}
 
 		~MainMenuControl()
@@ -26,15 +34,15 @@ namespace Wars.WinForms.UserControls
 			this.PlayButton.Dispose();
 		}
 
-		public MainMenuControl(MainForm parent)
-		{
-			InitializeComponent();
-			this._Parent = parent;
-		}
+		#endregion Constructor & Destructor
+
+		#region Button Event
 
 		private void PlayButton_Click(object sender, EventArgs e)
 		{
 			this._Parent.ChangeScreen(new BoardGameControl(this._Parent, (byte)this.PlayerCount.Value));
 		}
+
+		#endregion Button Event
 	}
 }
