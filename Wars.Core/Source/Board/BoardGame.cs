@@ -5,6 +5,7 @@ using Litdex.Security.RNG;
 using Litdex.Security.RNG.PRNG;
 
 using Wars.Core.Command;
+using Wars.Core.Common;
 using Wars.Core.Player;
 
 namespace Wars.Core.Board

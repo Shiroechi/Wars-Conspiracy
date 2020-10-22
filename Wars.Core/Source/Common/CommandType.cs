@@ -1,4 +1,4 @@
-﻿namespace Wars.Core.Command
+﻿namespace Wars.Core.Common
 {
 	/// <summary>
 	/// Command type to player.
@@ -7,6 +7,7 @@
 	{
 		None,
 		Attack, 
-		Defend
+		Defend, 
+		Request
 	}
 }
