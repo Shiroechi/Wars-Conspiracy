@@ -20,7 +20,7 @@ Offline simulation [Mini-game](https://kakegurui.fandom.com/wiki/War) implementa
 
 ### Prerequisites
 Before build this project you need to add reference:
-* [Litdex 1.1.0](https://github.com/Shiroechi/Litdex) [![Nuget](https://img.shields.io/nuget/v/litdex)](https://www.nuget.org/packages/Litdex/)
+* [Litdex](https://github.com/Shiroechi/Litdex) [![Nuget](https://img.shields.io/nuget/v/litdex)](https://www.nuget.org/packages/Litdex/)
 
 ## Build with
 * [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/)
