@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Wars.Core.Player;
+﻿using Wars.Core.Player;
 
 namespace Wars.Core.Command
 {
@@ -31,6 +27,5 @@ namespace Wars.Core.Command
 		}
 
 		#endregion Constructor & Destructor
-
 	}
 }
