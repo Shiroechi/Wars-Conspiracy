@@ -2,6 +2,9 @@
 
 Offline simulation [Mini-game](https://kakegurui.fandom.com/wiki/War) implementation from kakegurui manga.
 
+## Badges
+[![CodeFactor](https://www.codefactor.io/repository/github/shiroechi/wars-conspiracy/badge)](https://www.codefactor.io/repository/github/shiroechi/wars-conspiracy)
+
 ## Current Feature
 * Upto 8 players (7 AI)
 * Only have **Attack** and **Defend** command
